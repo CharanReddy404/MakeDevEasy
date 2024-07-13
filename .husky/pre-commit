@@ -1,0 +1,6 @@
+npx lint-staged || EXIT_CODE=$?
+
+if [ ! -z "$EXIT_CODE" ]; then
+  echo "Exiting with exit code: $EXIT_CODE"
+  exit $EXIT_CODE
+fi
