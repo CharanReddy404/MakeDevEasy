@@ -1,22 +1,29 @@
-name: commit-msg
+name: CI-Check
+
 on: [push]
+
 jobs:
-  commitlint:
+  CheckingCommitMessage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Print versions
         run: |
+          echo "Node version:"
           node --version
+          echo "NPM version:"
           npm --version
+          echo "commitlint version:"
           npx commitlint --version
+
       - name: Install commitlint
         run: |
-          npm install conventional-changelog-conventionalcommits
-          npm install commitlint@latest
+          npm install commitlint@latest conventional-changelog-conventionalcommits
+
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
         run: npx commitlint --last --verbose
