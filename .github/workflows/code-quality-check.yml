@@ -1,0 +1,42 @@
+name: Code Quality Checks
+
+on: [push]
+
+jobs:
+  lint-and-commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Print versions
+        run: |
+          echo "Node version:"
+          node --version
+          echo "NPM version:"
+          npm --version
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install --save-dev @commitlint/cli @commitlint/config-conventional
+
+      - name: Print tool versions
+        run: |
+          echo "commitlint version:"
+          npx commitlint --version
+          echo "lint-staged version:"
+          npx lint-staged --version
+
+      - name: Run lint-staged on changed files
+        run: |
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs npx lint-staged --verbose
+
+      - name: Validate commits
+        run: npx commitlint --from ${{ github.event.before }} --to ${{ github.sha }} --verbose
