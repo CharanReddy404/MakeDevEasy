@@ -7,22 +7,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Install pnpm
+        run: |
+          npm install -g pnpm
 
       - name: Print versions
         run: |
           echo "Node version:"
           node --version
-          echo "NPM version:"
-          npm --version
+          echo "PNPM version:"
+          pnpm --version
           echo "commitlint version:"
           npx commitlint --version
 
       - name: Install commitlint
         run: |
-          npm install commitlint@latest conventional-changelog-conventionalcommits
+          pnpm add commitlint@latest conventional-changelog-conventionalcommits
 
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
