@@ -10,7 +10,7 @@ export default function Header() {
       </Link>
       <div className='flex items-center gap-4'>
         <Button variant='secondary' size='sm' className='rounded-md'>
-          <Link href='https://discord.gg/VdNZZpD2ey' target='_blank'>
+          <Link href='https://discord.gg/9pB5nB4p3Q' target='_blank'>
             Join us on Discord
           </Link>
         </Button>
